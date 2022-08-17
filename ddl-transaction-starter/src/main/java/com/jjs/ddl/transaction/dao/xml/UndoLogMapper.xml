@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jjs.ddl.transaction.dao.UndoLogMapper">
+  <resultMap id="BaseResultMap" type="com.jjs.ddl.transaction.model.UndoLog">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="tx_id" jdbcType="VARCHAR" property="txId" />
+    <result column="sql" jdbcType="VARCHAR" property="sql" />
+    <result column="status" jdbcType="BOOLEAN" property="status" />
+    <result column="run_time" jdbcType="TIMESTAMP" property="runTime" />
+    <result column="is_deleted" jdbcType="BOOLEAN" property="isDeleted" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="creator" jdbcType="VARCHAR" property="creator" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="modifier" jdbcType="VARCHAR" property="modifier" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, tx_id, `sql`, `status`, run_time, is_deleted, create_time, creator, update_time, 
+    modifier
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from undo_log
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from undo_log
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.jjs.ddl.transaction.model.UndoLog" useGeneratedKeys="true">
+    insert into undo_log (tx_id, `sql`, `status`, 
+      run_time, is_deleted, create_time, 
+      creator, update_time, modifier
+      )
+    values (#{txId,jdbcType=VARCHAR}, #{sql,jdbcType=VARCHAR}, #{status,jdbcType=BOOLEAN}, 
+      #{runTime,jdbcType=TIMESTAMP}, #{isDeleted,jdbcType=BOOLEAN}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{creator,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{modifier,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.jjs.ddl.transaction.model.UndoLog" useGeneratedKeys="true">
+    insert into undo_log
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="txId != null">
+        tx_id,
+      </if>
+      <if test="sql != null">
+        `sql`,
+      </if>
+      <if test="status != null">
+        `status`,
+      </if>
+      <if test="runTime != null">
+        run_time,
+      </if>
+      <if test="isDeleted != null">
+        is_deleted,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="creator != null">
+        creator,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="modifier != null">
+        modifier,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="txId != null">
+        #{txId,jdbcType=VARCHAR},
+      </if>
+      <if test="sql != null">
+        #{sql,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=BOOLEAN},
+      </if>
+      <if test="runTime != null">
+        #{runTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=BOOLEAN},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null">
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifier != null">
+        #{modifier,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jjs.ddl.transaction.model.UndoLog">
+    update undo_log
+    <set>
+      <if test="txId != null">
+        tx_id = #{txId,jdbcType=VARCHAR},
+      </if>
+      <if test="sql != null">
+        `sql` = #{sql,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        `status` = #{status,jdbcType=BOOLEAN},
+      </if>
+      <if test="runTime != null">
+        run_time = #{runTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDeleted != null">
+        is_deleted = #{isDeleted,jdbcType=BOOLEAN},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null">
+        creator = #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifier != null">
+        modifier = #{modifier,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jjs.ddl.transaction.model.UndoLog">
+    update undo_log
+    set tx_id = #{txId,jdbcType=VARCHAR},
+      `sql` = #{sql,jdbcType=VARCHAR},
+      `status` = #{status,jdbcType=BOOLEAN},
+      run_time = #{runTime,jdbcType=TIMESTAMP},
+      is_deleted = #{isDeleted,jdbcType=BOOLEAN},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      creator = #{creator,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      modifier = #{modifier,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <select id="selectByTxId" parameterType="java.lang.String"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from undo_log
+    where tx_id = #{txId}
+        and is_deleted = 0
+  </select>
+
+  <update id="execSql" parameterType="string">
+    ${sql}
+  </update>
+
+  <select id="queryCreateTableSql" parameterType="string" resultType="hashmap">
+      show create table ${tableName};
+  </select>
+
+  <select id="list" parameterType="java.util.Map" resultType="java.util.LinkedHashMap">
+    select * from ${tbName}
+  </select>
+
+
+  <select id="getColumns" resultMap="columnEntity">
+    select
+      *
+    from information_schema.columns
+    where table_name = #{tableName}
+  </select>
+
+  <select id="getColumn" resultMap="columnEntity">
+    select
+      *
+    from information_schema.columns
+    where table_name = #{tableName}
+     and column_name = #{columnName} limit 1;
+  </select>
+
+  <select id="getColumnByPosition" resultMap="columnEntity">
+    select
+      *
+    from information_schema.columns
+    where table_name = #{tableName}
+      and ordinal_position = #{ordinalPosition} limit 1;
+  </select>
+
+
+  <resultMap id="columnEntity" type="com.jjs.ddl.transaction.model.Column">
+    <result column="table_schema" jdbcType="BIGINT" property="tableSchema"/>
+    <result column="table_name" jdbcType="BIGINT" property="tableName"/>
+    <result column="column_name" jdbcType="BIGINT" property="columnName"/>
+    <result column="ordinal_position" jdbcType="BIGINT" property="ordinalPosition"/>
+    <result column="data_type" jdbcType="BIGINT" property="dataType"/>
+    <result column="column_type" jdbcType="BIGINT" property="columnType"/>
+    <result column="column_comment" jdbcType="BIGINT" property="columnComment"/>
+  </resultMap>
+</mapper>

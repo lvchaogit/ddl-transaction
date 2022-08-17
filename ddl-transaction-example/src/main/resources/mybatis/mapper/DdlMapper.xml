@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jjs.ddl.example.mapper.DdlMapper">
+
+
+    <select id="isTargetTableExist" resultType="string">
+        select table_name from information_schema.tables
+        where table_schema = #{dataBaseName}
+        and table_name = #{tableName}
+    </select>
+
+    <update id="createNewTable">
+        CREATE TABLE ${tableName} (
+        `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '编号',
+        `create_id` varchar(64) DEFAULT NULL COMMENT '创建人编号 当前用户ID',
+        `create_name` varchar(64) DEFAULT NULL COMMENT '创建人',
+        `create_time` datetime DEFAULT NULL COMMENT '创建日期 默认为当前时间',
+        `update_id` varchar(64) DEFAULT NULL,
+        `update_time` datetime DEFAULT NULL COMMENT '采集日期',
+        `is_deleted` int(1) unsigned NOT NULL DEFAULT '0' COMMENT '删除标识 0正常 1已删除',
+        PRIMARY KEY (`id`)
+        ) ENGINE=InnoDB COMMENT= '测试表'
+    </update>
+
+    <update id="addColumn">
+        ALTER TABLE ${tableName} ADD `lc_test` varchar2(20) DEFAULT NULL COMMENT '测试字段'
+    </update>
+
+</mapper>
